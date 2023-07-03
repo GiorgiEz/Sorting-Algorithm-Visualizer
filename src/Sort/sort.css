@@ -1,0 +1,94 @@
+body {
+    background-color: #565555;
+}
+
+.array {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    margin-top: 3vh;
+    transform: scaleY(-1);
+}
+
+.number{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    color: white;
+    font-size: 1.5vw;
+    font-weight: bold;
+    transform: scaleY(-1);
+}
+
+.element {
+    display: flex;
+    justify-content: center;
+    background-color: #dc0f0f;
+    margin: 1px;
+}
+
+button {
+    width: 15vw;
+    height: 50px;
+    font-size: 2vw;
+    background-color: #8f0314;
+    font-weight: bold;
+    color: white;
+    border: 2px solid black;
+    border-radius: 5px;
+    margin-left: 10px;
+}
+
+button:hover {
+    background: linear-gradient(to bottom right, #808080, rgba(7, 57, 128, 0.43));
+    cursor: grabbing;
+    transition: 0.3s ease;
+}
+
+button:disabled{
+    opacity: 0.4;
+    border: 2px solid white;
+    background-color: #cfcfd5;
+}
+
+button:disabled:hover {
+    cursor: initial;
+    transform: initial;
+    background: #cfcfd5;
+}
+
+.sort-array {
+    margin-left: 15px;
+}
+
+.delay {
+    margin-top: 20px;
+    font-size: 20px;
+    font-weight: bold;
+    margin-left: 10px;
+    color: white;
+}
+
+.compare {
+    background-color: #1A233B;
+}
+
+.sorted {
+    background-color: #0cd37c;
+}
+
+.pause-end-button{
+    margin-left: 15px;
+}
+
+.pause-end-button:hover{
+    background-color: #fa0202;
+}
+
+.random-array{
+    margin-left: 15px;
+}
+
+.random-array:hover{
+    background-color: #fa0202;
+}
