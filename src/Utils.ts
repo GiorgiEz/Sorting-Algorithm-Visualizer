@@ -20,5 +20,5 @@ export function delay(ms: number) {
 }
 
 export function isSortActive(isSorting: IsSorting){
-    return isSorting.mergeSort || isSorting.insertionSort || isSorting.selectionSort
+    return isSorting.mergeSort || isSorting.insertionSort || isSorting.selectionSort || isSorting.bubbleSort || isSorting.quickSort
 }

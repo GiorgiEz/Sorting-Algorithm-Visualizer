@@ -3,11 +3,10 @@ import {generateNewArray} from "../Utils";
 
 const initialState: SortState = {
     array: generateNewArray(50),
-    isSorting: {insertionSort: false, mergeSort: false, selectionSort: false},
+    isSorting: {insertionSort: false, mergeSort: false, selectionSort: false, bubbleSort: false, quickSort: false},
     compare: {index: -1, key: -1},
     sortedIndexes: [],
     arrayLength: 50,
-    pauseSort: false,
 }
 
 export const sortReducer = (state = initialState, action: ActionType) => {
@@ -22,8 +21,6 @@ export const sortReducer = (state = initialState, action: ActionType) => {
             return { ...state, sortedIndexes: action.payload };
         case 'SET_ARRAY_LENGTH':
             return { ...state, arrayLength: action.payload };
-        case 'SET_PAUSE_SORT':
-            return { ...state, pauseSort: action.payload };
         default:
             return state;
     }

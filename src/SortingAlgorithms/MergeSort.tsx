@@ -1,6 +1,6 @@
 import {SortState} from "../Redux/redux-types";
 import {delay, isSortActive, isSorted} from "../Utils";
-import {setArray, setCompare, setIsSorting, setSortedIndexes} from "../Redux/Actions";
+import {setCompare, setIsSorting, setSortedIndexes} from "../Redux/Actions";
 import {useDispatch, useSelector} from "react-redux";
 import {Props} from "../Types";
 
@@ -22,11 +22,9 @@ export function MergeSort(props: MergeSortProps) {
     }
 
     function end_sorting(){
-        if (props.endSorting.current) {
-            props.sortingSpeed.current = 0
+        if (props.stopSorting()) {
             reset(false);
-            dispatch(setSortedIndexes([]))
-            dispatch(setArray([]))
+            props.sortingSpeed.current = 0
             return true
         }
         return false
@@ -50,13 +48,13 @@ export function MergeSort(props: MergeSortProps) {
         await mergeArray(start, end)
         animate(start, end)
 
-        await delay(10 * props.sortingSpeed.current)
+        await delay(props.sortingSpeed.current)
     }
 
     let itmd: number[] = []
     async function mergeArray(start: number, end: number) {
         if (end_sorting()) return
-        while (props.pause.current) {if (end_sorting()) return;await delay(0);}
+        while (props.pause.current) {if (end_sorting()) return; await delay(0);}
 
         let mid = (start + end) >> 1
         let start1 = start, start2 = mid + 1
@@ -109,7 +107,8 @@ export function MergeSort(props: MergeSortProps) {
             <button
                 className="sort-array"
                 disabled={isSortActive(isSorting) || arrayLength <= 0 || isSorted(array)}
-                onClick={mergeSortHandler}>Merge Sort
+                onClick={mergeSortHandler}>
+                Merge Sort
             </button>
         </div>
     )
