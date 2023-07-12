@@ -31,7 +31,7 @@ button {
     width: 15vw;
     height: 50px;
     font-size: 2vw;
-    background-color: #8f0314;
+    background-color: #93202e;
     font-weight: bold;
     color: white;
     border: 2px solid black;
@@ -61,7 +61,7 @@ button:disabled:hover {
     margin-left: 15px;
 }
 
-.delay {
+.delay-arr-length {
     margin-top: 20px;
     font-size: 20px;
     font-weight: bold;
@@ -69,26 +69,28 @@ button:disabled:hover {
     color: white;
 }
 
-.compare {
+.black {
     background-color: #1A233B;
 }
 
-.sorted {
+.orange {
+    background-color: orange;
+}
+
+.green {
     background-color: #0cd37c;
 }
 
-.pause-end-button{
+.random-end-pause-container{
+    display: flex;
+}
+
+.random-end-pause{
     margin-left: 15px;
+    width: 20vw;
+    background-color: orange;
 }
 
 .pause-end-button:hover{
-    background-color: #fa0202;
-}
-
-.random-array{
-    margin-left: 15px;
-}
-
-.random-array:hover{
     background-color: #fa0202;
 }

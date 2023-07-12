@@ -1,5 +1,5 @@
 import {useDispatch, useSelector} from "react-redux";
-import {setArray, setCompare, setIsSorting, setSortedIndexes} from "../Redux/Actions";
+import {setCompare, setIsSorting, setSortedIndexes} from "../Redux/Actions";
 import {delay, isSorted} from "../Utils";
 import {SortState} from "../Redux/redux-types";
 import React from "react";
@@ -19,31 +19,21 @@ export function InsertionSort(props: Props) {
         props.endSorting.current = false
     }
 
-    function end_sorting(){
-        if (props.endSorting.current) {
-            reset(false)
-            dispatch(setArray([]))
-            return true
-        }
-        return false
-    }
-
     async function insertionSort() {
-        if (isSorted(array)) return;
         reset(true);
 
         for (let i = 0; i < arrayLength; i++) {
             let key = array[i];
             let j = i - 1;
 
-            if (end_sorting()) return
-            while (props.pause.current) {if (end_sorting()) return; await delay(0);}
+            if (props.stopSorting()) {reset(false); return}
+            while (props.pause.current) {if (props.stopSorting()){reset(false); return} await delay(0);}
 
             dispatch(setCompare({index: i, key: key}));
             dispatch(setSortedIndexes([j+1]));
             while (j >= 0 && key < array[j]) {
-                if (end_sorting()) return
-                while (props.pause.current) {if (end_sorting()) return; await delay(0);}
+                if (props.stopSorting()) {reset(false); return}
+                while (props.pause.current) {if (props.stopSorting()){reset(false); return} await delay(0);}
                 await delay(props.sortingSpeed.current);
 
                 array[j + 1] = array[j];
@@ -52,7 +42,7 @@ export function InsertionSort(props: Props) {
             }
             array[j + 1] = key;
             dispatch(setSortedIndexes([j+1]));
-            await delay(10 * props.sortingSpeed.current);
+            await delay(props.sortingSpeed.current);
         }
         reset(false);
     }

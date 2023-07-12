@@ -25,8 +25,3 @@ export const setArrayLength = (length: number): ActionType => ({
     type: 'SET_ARRAY_LENGTH',
     payload: length,
 });
-
-export const setPauseSort = (pause: boolean): ActionType => ({
-    type: 'SET_PAUSE_SORT',
-    payload: pause,
-});
