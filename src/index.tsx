@@ -5,7 +5,7 @@ import {createStore} from "redux";
 import {sortReducer} from "./Redux/SortReducer";
 import {Provider} from "react-redux";
 
-const store = createStore(sortReducer);
+const store = createStore(sortReducer)
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

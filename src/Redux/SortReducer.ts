@@ -4,8 +4,8 @@ import {generateNewArray} from "../Utils";
 const initialState: SortState = {
     array: generateNewArray(50),
     isSorting: {insertionSort: false, mergeSort: false, selectionSort: false, bubbleSort: false, quickSort: false},
-    compare: {index: -1, key: -1},
-    sortedIndexes: [],
+    compare: {val1: -1, val2: -1},
+    sortedIndex: -1,
     arrayLength: 50,
 }
 
@@ -17,8 +17,8 @@ export const sortReducer = (state = initialState, action: ActionType) => {
             return { ...state, isSorting: action.payload };
         case 'SET_COMPARE':
             return { ...state, compare: action.payload };
-        case 'SET_SORTED_INDEXES':
-            return { ...state, sortedIndexes: action.payload };
+        case 'SET_SORTED_INDEX':
+            return { ...state, sortedIndex: action.payload };
         case 'SET_ARRAY_LENGTH':
             return { ...state, arrayLength: action.payload };
         default:

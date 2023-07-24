@@ -8,7 +8,7 @@ export function DrawArray(){
     const array = useSelector((state: SortState) => state.array)
     const isSorting = useSelector((state: SortState) => state.isSorting)
     const compare = useSelector((state: SortState) => state.compare)
-    const sortedIndexes = useSelector((state: SortState) => state.sortedIndexes)
+    const sortedIndex = useSelector((state: SortState) => state.sortedIndex)
 
     return (
         <div>
@@ -21,39 +21,39 @@ export function DrawArray(){
                     <div
                         key={index}
                         className={`element
-                                ${compare.index === index ? "black" : ""}
-                                ${sortedIndexes.includes(index) ? "green" : "" }`}
-                        style={{ height: sortedIndexes.includes(index) ? `${compare.key/1.5}vh` : `${num/1.5}vh`, width:`${100}vh`}}>
-                        <div className={"number"}>{array.length <= 50 ? sortedIndexes.includes(index) ? compare.key : num : ""}</div>
+                                ${compare.val1 === index ? "black" : ""}
+                                ${sortedIndex === index ? "green" : "" }`}
+                        style={{ height: sortedIndex === index ? `${(compare.val2 as number)/1.5}vh` : `${num/1.5}vh`, width:`${100}vh`}}>
+                        <div className={"number"}>{array.length <= 50 ? sortedIndex === index ? compare.val2 : num : ""}</div>
                     </div>
                 ))}
 
                 {isSorting.mergeSort && array.map((num, index) => (
                     <Array key={index}
-                           className={`element ${sortedIndexes.includes(index) ? "green" : "" }`}
+                           className={`element ${(compare.val1 as number) === index || (compare.val2 as number) === index ? "green" : "" }`}
                            num={num}/>
                 ))}
 
                 {isSorting.selectionSort && array.map((num, index) => (
                     <Array key={index}
                             className={`element 
-                                ${compare.index === index ? "black" : ""} 
-                                ${sortedIndexes.includes(index) || compare.key === index ? "green" : "" }`}
+                                ${compare.val1 === index ? "black" : ""} 
+                                ${sortedIndex === index || compare.val2 === index ? "green" : "" }`}
                            num={num}/>
                 ))}
 
                 {isSorting.bubbleSort && array.map((num, index) => (
                     <Array key={index}
                            className={`element
-                                ${compare.index === index ? "green" : compare.key === index ? "black" : ""} `}
+                                ${compare.val1 === index ? "green" : compare.val2 === index ? "black" : ""} `}
                            num={num}/>
                 ))}
 
                 {isSorting.quickSort && array.map((num, index) => (
                     <Array key={index}
                            className={`element 
-                                ${compare.index === index ? "black" : compare.key === index ? "orange" : ""} 
-                                ${sortedIndexes.includes(index) ? "green" : "" }`}
+                                ${compare.val1 === index ? "green" : compare.val2 === index ? "orange" : ""} 
+                                ${sortedIndex === index ? "black" : "" }`}
                            num={num}/>
                 ))}
             </div>

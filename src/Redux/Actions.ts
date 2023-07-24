@@ -11,13 +11,13 @@ export const setIsSorting = (isSorting: IsSorting): ActionType => ({
     payload: isSorting,
 });
 
-export const setCompare = (value: {index: number, key: number}): ActionType => ({
+export const setCompare = (value: {val1: number, val2: number}): ActionType => ({
     type: 'SET_COMPARE',
     payload: value,
-});
+})
 
-export const setSortedIndexes = (indexes: number[]): ActionType => ({
-    type: 'SET_SORTED_INDEXES',
+export const setSortedIndex = (indexes: number): ActionType => ({
+    type: 'SET_SORTED_INDEX',
     payload: indexes,
 });
 

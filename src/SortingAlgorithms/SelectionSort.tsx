@@ -1,7 +1,7 @@
 import {useDispatch, useSelector} from "react-redux";
 import {SortState} from "../Redux/redux-types";
 import {delay, isSortActive, isSorted} from "../Utils";
-import {setCompare, setIsSorting, setSortedIndexes} from "../Redux/Actions";
+import {setCompare, setIsSorting, setSortedIndex} from "../Redux/Actions";
 import {Props} from "../Types";
 import React from "react";
 
@@ -13,8 +13,8 @@ export function SelectionSort(props: Props){
 
     function reset(isSelectionSortActive: boolean){
         dispatch(setIsSorting({...isSorting, selectionSort: isSelectionSortActive}))
-        dispatch(setCompare({key: -1, index: -1}))
-        dispatch(setSortedIndexes([]))
+        dispatch(setCompare({val1: -1, val2: -1}))
+        dispatch(setSortedIndex(-1))
         props.endSorting.current = false
     }
 
@@ -22,7 +22,7 @@ export function SelectionSort(props: Props){
         reset(true)
         for (let i = 0; i < arrayLength; i++) {
             let min = i
-            dispatch(setSortedIndexes([min]))
+            dispatch(setSortedIndex(min))
 
             for (let j = i + 1; j < arrayLength; j++) {
                 if (props.stopSorting()) {reset(false); return}
@@ -30,16 +30,16 @@ export function SelectionSort(props: Props){
 
                 if (array[min] > array[j]) {
                     min = j
-                    dispatch(setSortedIndexes([j]))
-                    dispatch(setCompare({key: i, index: -1}))
+                    dispatch(setSortedIndex(j))
+                    dispatch(setCompare({val1: -1, val2: i}))
                     await delay(props.sortingSpeed.current)
                 } else {
-                    dispatch(setCompare({key: i, index: j}))
+                    dispatch(setCompare({val1: j, val2: i}))
                 }
                 await delay(props.sortingSpeed.current)
             }
             [array[i], array[min]] = [array[min], array[i]];
-            dispatch(setSortedIndexes([]))
+            dispatch(setSortedIndex(-1))
         }
         reset(false)
     }
@@ -48,7 +48,7 @@ export function SelectionSort(props: Props){
         <div>
             <button
                 className="sort-array"
-                disabled={isSortActive(isSorting) || arrayLength<= 0 || isSorted(array)}
+                disabled={isSortActive(isSorting) || arrayLength <= 0 || isSorted(array)}
                 onClick={() => selectionSort()}>Selection Sort
             </button>
         </div>

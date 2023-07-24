@@ -8,6 +8,7 @@ body {
     justify-content: center;
     margin-top: 3vh;
     transform: scaleY(-1);
+    height: 67vh;
 }
 
 .number{
