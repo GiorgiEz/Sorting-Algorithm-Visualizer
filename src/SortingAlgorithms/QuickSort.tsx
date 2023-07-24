@@ -2,14 +2,10 @@ import {delay, isSortActive, isSorted} from "../Utils";
 import React from "react";
 import {useDispatch, useSelector} from "react-redux";
 import {SortState} from "../Redux/redux-types";
-import {Props} from "../Types";
-import {setCompare, setIsSorting, setSortedIndexes} from "../Redux/Actions";
+import {Props, StackType} from "../Types";
+import {setCompare, setIsSorting, setSortedIndex} from "../Redux/Actions";
 
-interface QuickSortProps extends Props{
-    delay: number,
-}
-
-export function QuickSort(props: QuickSortProps){
+export function QuickSort(props: Props){
     const dispatch = useDispatch()
     const array = useSelector((state: SortState) => state.array)
     const isSorting = useSelector((state: SortState) => state.isSorting)
@@ -17,60 +13,53 @@ export function QuickSort(props: QuickSortProps){
 
     function reset(isQuickSortActive: boolean){
         dispatch(setIsSorting({...isSorting, quickSort: isQuickSortActive}));
-        dispatch(setCompare({key: -1, index: -1}));
-        dispatch(setSortedIndexes([]));
+        dispatch(setCompare({val1: -1, val2: -1}));
+        dispatch(setSortedIndex(-1));
         props.endSorting.current = false
-    }
-
-    function end_sorting(){
-        if (props.stopSorting()) {
-            reset(false);
-            props.sortingSpeed.current = 0
-            return true
-        }
-        return false
     }
 
     async function partition(arr: number[], start: number, end: number) {
         const pivotIndex = end;
         const pivot = arr[end];
         let leftIndex = start;
-        dispatch(setSortedIndexes([pivotIndex]))
+        dispatch(setSortedIndex(pivotIndex));
 
         for (let i = start; i <= end; i++) {
-            if (end_sorting()) return
-            while (props.pause.current) {
-                if (end_sorting()) return;
-                await delay(0);
-            }
+            if (props.stopSorting()) return
+            while (props.pause.current) {if (props.stopSorting()) return; await delay(0);}
 
-            dispatch(setCompare({index: i, key: leftIndex}))
-            await delay(props.sortingSpeed.current)
+            dispatch(setCompare({ val1: i, val2: leftIndex }));
+            await delay(props.sortingSpeed.current);
             if (arr[i] < pivot) {
                 [arr[i], arr[leftIndex]] = [arr[leftIndex], arr[i]];
                 leftIndex += 1;
             }
         }
         [arr[pivotIndex], arr[leftIndex]] = [arr[leftIndex], arr[pivotIndex]];
-        await delay(props.sortingSpeed.current)
+        await delay(props.sortingSpeed.current);
         return leftIndex;
     }
 
-    async function quickSortAux(arr: number[], start: number, end: number) {
-        if (start < end) {
-            const p = await partition(arr, start, end);
-            await quickSortAux(arr, start, (p as number) - 1);
-            await quickSortAux(arr, (p as number) + 1, end);
-        }
-    }
-
     async function quickSort() {
-        reset(true)
-        await quickSortAux(array, 0, arrayLength - 1)
-            .finally(() => {
-                reset(false)
-                props.sortingSpeed.current = props.delay
-            })
+        reset(true);
+
+        const stack: { start: number; end: number }[] = []; // Stack to store ranges
+        stack.push({ start: 0, end: arrayLength - 1 });
+
+        while (stack.length) {
+            if (props.stopSorting()) break
+            while (props.pause.current) {if (props.stopSorting()) break; await delay(0);}
+
+            const popped = stack.pop()
+            const p = await partition(array, (popped as StackType).start, (popped as StackType).end);
+            if ((p as number) - 1 > (popped as StackType).start) {
+                stack.push({ start: (popped as StackType).start, end: (p as number) - 1 });
+            }
+            if ((p as number) + 1 < (popped as StackType).end) {
+                stack.push({ start: (p as number) + 1, end: (popped as StackType).end });
+            }
+        }
+        reset(false);
     }
 
     return (

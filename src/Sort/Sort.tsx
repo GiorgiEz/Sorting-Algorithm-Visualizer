@@ -6,7 +6,7 @@ import {generateNewArray, isSortActive} from "../Utils";
 import {InsertionSort} from "../SortingAlgorithms/InsertionSort";
 import {MergeSort} from "../SortingAlgorithms/MergeSort";
 import {
-    setArray, setArrayLength, setCompare, setIsSorting, setSortedIndexes
+    setArray, setArrayLength, setCompare, setIsSorting, setSortedIndex
 } from "../Redux/Actions";
 import {SelectionSort} from "../SortingAlgorithms/SelectionSort";
 import {DrawArray} from "./DrawArray";
@@ -29,8 +29,8 @@ export function Sort() {
         dispatch(setArray(generateNewArray(arrayLength)))
         dispatch(setIsSorting(
             {insertionSort: false, mergeSort: false, selectionSort: false, bubbleSort: false, quickSort: false}))
-        dispatch(setCompare({index: -1, key: -1}))
-        dispatch(setSortedIndexes([]))
+        dispatch(setCompare({val1: -1, val2: -1}))
+        dispatch(setSortedIndex(-1))
         setPauseSort(false)
         pause.current = false
         endSorting.current = false
@@ -71,10 +71,10 @@ export function Sort() {
         <div>
             <div style={{display: "flex", marginBottom: "15px"}}>
                 <InsertionSort pause={pause} endSorting={endSorting} sortingSpeed={sortingSpeed} stopSorting={stopSorting}/>
-                <MergeSort pause={pause} endSorting={endSorting} sortingSpeed={sortingSpeed} delay={delay} stopSorting={stopSorting}/>
+                <MergeSort pause={pause} endSorting={endSorting} sortingSpeed={sortingSpeed} stopSorting={stopSorting}/>
                 <SelectionSort pause={pause} endSorting={endSorting} sortingSpeed={sortingSpeed} stopSorting={stopSorting}/>
                 <BubbleSort pause={pause} endSorting={endSorting} sortingSpeed={sortingSpeed} stopSorting={stopSorting}/>
-                <QuickSort pause={pause} endSorting={endSorting} sortingSpeed={sortingSpeed} delay={delay} stopSorting={stopSorting}/>
+                <QuickSort pause={pause} endSorting={endSorting} sortingSpeed={sortingSpeed} stopSorting={stopSorting}/>
             </div>
 
             <div className={"random-end-pause-container"}>

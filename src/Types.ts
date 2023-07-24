@@ -14,3 +14,9 @@ export type IsSorting = {
     bubbleSort: boolean,
     quickSort: boolean,
 }
+
+// stack type used to implement quicksort iteratively
+export type StackType = {
+    start: number,
+    end: number
+}
